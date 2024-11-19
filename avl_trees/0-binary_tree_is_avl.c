@@ -1,6 +1,5 @@
 #include "binary_trees.h"
 
-
 /**
  * validate_avl - Recursively validates an AVL tree
  * @tree: Pointer to the root node of the subtree
@@ -10,7 +9,8 @@
  *
  * Return: 1 if the subtree is a valid AVL tree, otherwise 0
  */
-int validate_avl(const binary_tree_t *tree, int min, int max, int *height) {
+int validate_avl(const binary_tree_t *tree, int min, int max, int *height)
+{
     int left_height = 0, right_height = 0;
 
     if (!tree)
