@@ -11,27 +11,27 @@
  */
 int validate_avl(const binary_tree_t *tree, int min, int max, int *height)
 {
-    int left_height = 0, right_height = 0;
+  int left_height = 0, right_height = 0;
 
-    if (!tree)
-    {
-        *height = 0;
-        return (1);
-    }
-
-    if (tree->n <= min || tree->n >= max)
-        return (0);
-
-    if (!validate_avl(tree->left, min, tree->n, &left_height) ||
-        !validate_avl(tree->right, tree->n, max, &right_height))
-        return (0);
-
-    *height = 1 + (left_height > right_height ? left_height : right_height);
-
-    if (abs(left_height - right_height) > 1)
-        return (0);
-
+  if (!tree)
+  {
+    *height = 0;
     return (1);
+  }
+
+  if (tree->n <= min || tree->n >= max)
+    return (0);
+
+  if (!validate_avl(tree->left, min, tree->n, &left_height) ||
+      !validate_avl(tree->right, tree->n, max, &right_height))
+    return (0);
+
+  *height = 1 + (left_height > right_height ? left_height : right_height);
+
+  if (abs(left_height - right_height) > 1)
+    return (0);
+
+  return (1);
 }
 
 /**
@@ -42,10 +42,10 @@ int validate_avl(const binary_tree_t *tree, int min, int max, int *height)
  */
 int binary_tree_is_avl(const binary_tree_t *tree)
 {
-    int height = 0;
+  int height = 0;
 
-    if (!tree)
-        return (0);
+  if (!tree)
+    return (0);
 
-    return (validate_avl(tree, INT_MIN, INT_MAX, &height));
+  return (validate_avl(tree, INT_MIN, INT_MAX, &height));
 }
