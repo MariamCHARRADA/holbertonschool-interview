@@ -11,7 +11,7 @@
 int *find_substring(char const *s, char const **words, int nb_words, int *n)
 {
     int str_len, word_len, total_len, *res, i, j, k, found, match_count = 0;
-    int *used; 
+    int *used;
 
     if (!s || !words || nb_words == 0 || !n)
         return (NULL);
