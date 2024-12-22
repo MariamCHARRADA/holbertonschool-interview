@@ -1,13 +1,21 @@
-#include "substring.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int *find_substring(char const *s, char const **words, int nb_words, int *n);
+int *allocate_memory(int str_len);
+int *allocate_used_memory(int nb_words);
+int find_matching_substrings(char const *s, char const **words, int nb_words,
+							 int str_len, int total_len, int *res, int *used);
 
 /**
- * find_substring - finds substrings made by concatenating given words
- * @s: the string to search in
- * @words: the words to match in the string
- * @nb_words: number of words in the array
- * @n: pointer to store the count of matching substrings
+  *find_substring - finds substrings made by concatenating given words
+  *@s: the string to search in
+  *@words: the words to match in the string
+  *@nb_words: number of words in the array
+  *@n: pointer to store the count of matching substrings
  *
- * Return: array of starting indices of matching substrings, or NULL
+  *Return: array of starting indices of matching substrings, or NULL
  */
 int *find_substring(char const *s, char const **words, int nb_words, int *n)
 {
@@ -19,19 +27,21 @@ int *find_substring(char const *s, char const **words, int nb_words, int *n)
 
 	str_len	  = strlen(s);
 	word_len  = strlen(words[0]);
-	total_len = word_len * nb_words;
+	total_len = word_len  * nb_words;
 
 	if (str_len < total_len)
 	{
 		*n = 0;
 		return (NULL);
 	}
+
 	res = allocate_memory(str_len);
 	if (!res)
 	{
 		*n = 0;
 		return (NULL);
 	}
+
 	used = allocate_used_memory(nb_words);
 	if (!used)
 	{
@@ -39,49 +49,53 @@ int *find_substring(char const *s, char const **words, int nb_words, int *n)
 		*n = 0;
 		return (NULL);
 	}
+
 	match_count = find_matching_substrings(s, words, nb_words, str_len,
 										   total_len, res, used);
+
 	free(used);
+
 	if (match_count == 0)
 	{
 		free(res);
 		*n = 0;
 		return (NULL);
 	}
+
 	*n = match_count;
 	return (res);
 }
 
 /**
- * allocate_memory - Allocates memory for the result array
- * @str_len: the length of the string
+  *allocate_memory - Allocates memory for the result array
+  *@str_len: the length of the string
  *
- * Return: pointer to the allocated memory
+  *Return: pointer to the allocated memory
  */
-int *allocate_memory(int str_len) { return (malloc(str_len * sizeof(int))); }
+int *allocate_memory(int str_len) { return (malloc(str_len  * sizeof(int))); }
 
 /**
- * allocate_used_memory - Allocates memory for the used array
- * @nb_words: the number of words
+  *allocate_used_memory - Allocates memory for the used array
+  *@nb_words: the number of words
  *
- * Return: pointer to the allocated memory
+  *Return: pointer to the allocated memory
  */
 int *allocate_used_memory(int nb_words)
 {
-	return (malloc(nb_words * sizeof(int)));
+	return (malloc(nb_words  * sizeof(int)));
 }
 
 /**
- * find_matching_substrings - Finds the matching substrings
- * @s: the string to search in
- * @words: the words to match in the string
- * @nb_words: number of words
- * @str_len: the length of the string
- * @total_len: the total length of all words combined
- * @res: the array to store matching indices
- * @used: the array to keep track of used words
+  *find_matching_substrings - Finds the matching substrings
+  *@s: the string to search in
+  *@words: the words to match in the string
+  *@nb_words: number of words
+  *@str_len: the length of the string
+  *@total_len: the total length of all words combined
+  *@res: the array to store matching indices
+  *@used: the array to keep track of used words
  *
- * Return: the count of matching substrings
+  *Return: the count of matching substrings
  */
 int find_matching_substrings(char const *s, char const **words, int nb_words,
 							 int str_len, int total_len, int *res, int *used)
@@ -90,10 +104,10 @@ int find_matching_substrings(char const *s, char const **words, int nb_words,
 
 	for (i = 0; i <= str_len - total_len; i++)
 	{
-		memset(used, 0, nb_words * sizeof(int));
+		memset(used, 0, nb_words  * sizeof(int));
 		for (j = 0; j < nb_words; j++)
 		{
-			const char *sub = s + i + j * strlen(words[0]);
+			const char *sub = s + i + j  * strlen(words[0]);
 
 			found = 0;
 
