@@ -11,6 +11,9 @@ def isWinner(x, nums):
     ben_wins = 0
 
     for n in nums:
+        if n < 2:
+            continue
+
         primes = [True] * (n + 1)
         primes[0] = primes[1] = False
 
