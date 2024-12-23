@@ -3,64 +3,104 @@
 #include <stdlib.h>
 
 /**
- * merge - Merges two subarrays into a sorted array.
- * @array: The original array.
- * @left: The left subarray.
- * @right: The right subarray.
- * @size: The size of the original array.
+ * merge - Merges two subarrays into sorted order.
+ * @array: The array to sort.
+ * @start: Starting index of the section.
+ * @mid: Middle index of the section.
+ * @end: Ending index of the section.
+ * @copy: Copy of the array used for merging.
  */
-void merge(int *array, int *left, int *right, size_t size)
+void merge(int *array, int start, int mid, int end, int *copy)
 {
-    size_t i = 0, j = 0, k = 0, left_size = size / 2, right_size = size - left_size;
+    int left = start;
+    int right = mid;
+    int i;
 
-    printf("Merging...\n[left]: ");
-    for (i = 0; i < left_size; i++)
-        printf("%d%s", left[i], (i < left_size - 1) ? ", " : "");
+    for (i = start; i < end; i++)
+    {
+        if (left < mid && (right >= end || copy[left] <= copy[right]))
+        {
+            array[i] = copy[left];
+            left++;
+        }
+        else
+        {
+            array[i] = copy[right];
+            right++;
+        }
+    }
+}
+
+/**
+ * split - Recursively splits the array and merges sorted subarrays.
+ * @array: The array to sort.
+ * @start: Starting index of the section.
+ * @end: Ending index of the section.
+ * @copy: Copy of the array used for sorting.
+ */
+void split(int *array, int start, int end, int *copy)
+{
+    int mid = (start + end) / 2;
+    int i;
+
+    if (end - start <= 1)
+        return;
+
+    split(copy, start, mid, array);
+    split(copy, mid, end, array);
+
+    printf("Merging...\n");
+
+    printf("[left]: ");
+    for (i = start; i < mid; i++)
+    {
+        printf("%d", copy[i]);
+        if (i < mid - 1)
+            printf(", ");
+    }
     printf("\n[right]: ");
-    for (i = 0; i < right_size; i++)
-        printf("%d%s", right[i], (i < right_size - 1) ? ", " : "");
-    printf("\n");
+    for (i = mid; i < end; i++)
+    {
+        printf("%d", copy[i]);
+        if (i < end - 1)
+            printf(", ");
+    }
 
-    i = 0;
-    while (i < left_size && j < right_size)
-        array[k++] = (left[i] <= right[j]) ? left[i++] : right[j++];
-    while (i < left_size)
-        array[k++] = left[i++];
-    while (j < right_size)
-        array[k++] = right[j++];
+    merge(array, start, mid, end, copy);
 
-    printf("[Done]: ");
-    for (i = 0; i < size; i++)
-        printf("%d%s", array[i], (i < size - 1) ? ", " : "");
+    printf("\n[Done]: ");
+    for (i = start; i < end; i++)
+    {
+        printf("%d", array[i]);
+        if (i < end - 1)
+            printf(", ");
+    }
     printf("\n");
 }
 
 /**
- * merge_sort - Sorts an array of integers in ascending order using Merge Sort.
+ * merge_sort - Sorts an array of integers using the Merge Sort algorithm.
  * @array: The array to sort.
  * @size: The size of the array.
  */
 void merge_sort(int *array, size_t size)
 {
-    if (size < 2)
+    int *copy;
+    size_t i;
+
+    if (!array || size < 2)
         return;
 
-    size_t mid = size / 2;
-    int *left = malloc(mid * sizeof(int));
-    int *right = malloc((size - mid) * sizeof(int));
-
-    if (!left || !right)
+    copy = malloc(sizeof(int) * size);
+    if (!copy)
+    {
+        fprintf(stderr, "Error: malloc failed\n");
         return;
+    }
 
-    for (size_t i = 0; i < mid; i++)
-        left[i] = array[i];
-    for (size_t i = mid; i < size; i++)
-        right[i - mid] = array[i];
+    for (i = 0; i < size; i++)
+        copy[i] = array[i];
 
-    merge_sort(left, mid);
-    merge_sort(right, size - mid);
-    merge(array, left, right, size);
-
-    free(left);
-    free(right);
+    split(array, 0, size, copy);
+    free(copy);
 }
