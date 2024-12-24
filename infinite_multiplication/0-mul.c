@@ -1,63 +1,104 @@
 #include "holberton.h"
-#include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
 
-int is_all_digits(char *str);
-void print_error_and_exit(void);
-
 /**
- * main - Program that multiplies two positive numbers.
- * @argc: Argument count
- * @argv: Argument vector (array of strings)
- * Return: 0 on success, or exit with status 98 on error
+ * is_digit - checks if a string contains only digits.
+ * @str: string to be checked.
+ * Return: 1 if string contains only digits, otherwise 0.
  */
-int main(int argc, char *argv[])
+int is_digit(char *str)
 {
-	long num1_int, num2_int, result;
+	int i = 0;
 
-	if (argc != 3)
-		print_error_and_exit();
-
-	if (!is_all_digits(argv[1]) || !is_all_digits(argv[2]))
-		print_error_and_exit();
-
-	num1_int = atol(argv[1]);
-	num2_int = atol(argv[2]);
-	result	 = num1_int * num2_int;
-
-	printf("%ld\n", result);
-
-	return (0);
-}
-
-/**
- * is_all_digits - Checks if a string contains only digits.
- * @str: The string to check.
- * Return: 1 if the string contains only digits, 0 otherwise.
- */
-int is_all_digits(char *str)
-{
-	int i;
-
-	for (i = 0; str[i] != '\0'; i++)
+	while (str[i])
 	{
-		if (!isdigit(str[i]))
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
+		i++;
 	}
 	return (1);
 }
 
 /**
- * print_error_and_exit - Prints "Error" and exits with status 98.
+ * print_error - prints "Error" and exits with code 98.
  */
-void print_error_and_exit(void)
+void print_error(void)
 {
-	_putchar('E');
-	_putchar('r');
-	_putchar('r');
-	_putchar('o');
-	_putchar('r');
+	char *msg = "Error";
+	int i;
+
+	for (i = 0; msg[i]; i++)
+		_putchar(msg[i]);
 	_putchar('\n');
 	exit(98);
+}
+
+/**
+ * _len - returns the length of a string.
+ * @str: string to measure.
+ * Return: length of the string.
+ */
+int _len(char *str)
+{
+	int len = 0;
+
+	while (str[len])
+		len++;
+	return (len);
+}
+
+/**
+ * main - multiplies two numbers and prints the result.
+ * @argc: number of arguments.
+ * @argv: array of argument values.
+ * Return: 0 on success, or exit with code 98 on error.
+ */
+int main(int argc, char *argv[])
+{
+	char *num1, *num2;
+	int len_num1, len_num2, total_len, i, j, mul, sum, *result;
+
+	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
+		print_error();
+
+	num1 = argv[1];
+	num2 = argv[2];
+
+	len_num1  = _len(num1);
+	len_num2  = _len(num2);
+	total_len = len_num1 + len_num2;
+
+	result = malloc(total_len * sizeof(int));
+	if (result == NULL)
+		print_error();
+
+	for (i = 0; i < total_len; i++)
+		result[i] = 0;
+
+	for (i = len_num1 - 1; i >= 0; i--)
+	{
+		for (j = len_num2 - 1; j >= 0; j--)
+		{
+			mul				  = (num1[i] - '0') * (num2[j] - '0');
+			sum				  = mul + result[i + j + 1];
+			result[i + j + 1] = sum % 10;
+			result[i + j] += sum / 10;
+		}
+	}
+
+	i = 0;
+	while (i < total_len && result[i] == 0)
+		i++;
+
+	if (i == total_len)
+		_putchar('0');
+	else
+	{
+		for (; i < total_len; i++)
+			_putchar(result[i] + '0');
+	}
+	_putchar('\n');
+
+	free(result);
+	return (0);
 }
