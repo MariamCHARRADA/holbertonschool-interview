@@ -1,0 +1,15 @@
+BasedOnStyle: LLVM
+IndentWidth: 4               # Use 4 spaces per indent
+UseTab: Always               # Use tabs for indentation
+BreakBeforeBraces: Allman     # Place braces on a new line
+ColumnLimit: 80              # Limit line width to 80 characters
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+IndentCaseLabels: false       # Align 'case' labels with switch
+SpacesInParentheses: false    # No spaces inside parentheses
+SpaceBeforeParens: ControlStatements  # Space before parentheses in if/while/for
+SpaceAfterCStyleCast: true    # Add space after a cast
+FixNamespaceComments: false   # Do not add comments for closing braces
+TabWidth: 4                   # Match tab width with indent width
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
