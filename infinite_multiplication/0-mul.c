@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		print_error();
-
 	num1 = argv[1];
 	num2 = argv[2];
 
@@ -71,10 +70,8 @@ int main(int argc, char *argv[])
 	result = malloc(total_len * sizeof(int));
 	if (result == NULL)
 		print_error();
-
 	for (i = 0; i < total_len; i++)
 		result[i] = 0;
-
 	for (i = len_num1 - 1; i >= 0; i--)
 	{
 		for (j = len_num2 - 1; j >= 0; j--)
@@ -85,11 +82,9 @@ int main(int argc, char *argv[])
 			result[i + j] += sum / 10;
 		}
 	}
-
 	i = 0;
 	while (i < total_len && result[i] == 0)
 		i++;
-
 	if (i == total_len)
 		_putchar('0');
 	else
@@ -98,7 +93,6 @@ int main(int argc, char *argv[])
 			_putchar(result[i] + '0');
 	}
 	_putchar('\n');
-
 	free(result);
 	return (0);
 }
