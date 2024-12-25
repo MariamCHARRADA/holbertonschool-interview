@@ -3,6 +3,7 @@
     "files.associations": {
         "*.ndjson": "jsonl",
         "*.dbclient-js": "javascript",
-        "sort.h": "c"
+        "sort.h": "c",
+        "stdlib.h": "c"
     }
 }

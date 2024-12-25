@@ -1,6 +1,6 @@
 #include "lists.h"
+#include <stddef.h>
 #include <stdlib.h>
-
 
 /**
  * recurse_list - Compares the left and right nodes of the linked list
