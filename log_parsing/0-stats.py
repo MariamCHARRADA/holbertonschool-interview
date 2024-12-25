@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" process log input """
+"""
+process log input
+"""
 import sys
 
 
