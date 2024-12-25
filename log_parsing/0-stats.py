@@ -1,54 +1,45 @@
 #!/usr/bin/python3
-""" log parse input """
+""" parse input """
 import sys
 
-
-def print_stats(total_size, status_codes):
-    """
-    Print the current statistics.
-    """
-    print(f"File size: {total_size}")
-    for code in sorted(status_codes.keys()):
-        if status_codes[code] > 0:
-            print(f"{code}: {status_codes[code]}")
-
-
-def main():
+if __name__ == "__main__":
+    status_codes = {
+        "200": 0,
+        "301": 0,
+        "400": 0,
+        "401": 0,
+        "403": 0,
+        "404": 0,
+        "405": 0,
+        "500": 0,
+    }
+    total_lines = 0
     total_size = 0
-    status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
-    line_count = 0
+
+    def print_statistics():
+        """Prints the accumulated statistics"""
+        print(f"File size: {total_size}")
+        for code, count in sorted(status_codes.items()):
+            if count > 0:
+                print(f"{code}: {count}")
 
     try:
         for line in sys.stdin:
-            line = line.strip()
+            total_lines += 1
             parts = line.split()
-
-            if len(parts) < 9:
-                continue
-
-            try:
-                file_size = int(parts[-1])
-                total_size += file_size
-            except ValueError:
-                continue
-
-            try:
-                status_code = int(parts[-2])
-                if status_code in status_codes:
-                    status_codes[status_code] += 1
-            except ValueError:
-                continue
-
-            line_count += 1
-            if line_count % 10 == 0:
-                print_stats(total_size, status_codes)
-
+            if len(parts) > 2:
+                try:
+                    size = int(parts[-1])
+                    total_size += size
+                except ValueError:
+                    continue
+                code = parts[-2]
+                if code in status_codes:
+                    status_codes[code] += 1
+            if total_lines % 10 == 0:
+                print_statistics()
     except KeyboardInterrupt:
-        print_stats(total_size, status_codes)
+        print_statistics()
         raise
-
-    print_stats(total_size, status_codes)
-
-
-if __name__ == "__main__":
-    main()
+    finally:
+        print_statistics()
