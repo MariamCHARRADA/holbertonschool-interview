@@ -1,8 +1,7 @@
 #!/usr/bin/python3
-"""
-Log parsing script
-"""
+
 import sys
+
 
 i = 0
 FileSize = 0
