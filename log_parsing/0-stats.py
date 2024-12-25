@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" This module contains the class definition for a Rectangle object."""
+"""
+This module contains the log parsingg
+"""
 import sys
 
 
