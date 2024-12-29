@@ -11,7 +11,7 @@ if len(sys.argv) != 2:
 
 try:
     int(sys.argv[1])
-except ValueError:
+except Exception:
     print("N must be a number")
     exit(1)
 
