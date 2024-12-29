@@ -1,74 +1,44 @@
 #!/usr/bin/python3
-"""
-N queens backtracking
+""" 
+N queens backtracing
 """
 
 import sys
 
-if len(sys.argv) != 2:
-    print("Usage: nqueens N")
-    exit(1)
 
-try:
-    int(sys.argv[1])
-except Exception:
-    print("N must be a number")
-    exit(1)
-
-if int(sys.argv[1]) < 4:
-    print("N must be at least 4")
-    exit(1)
-if not isinstance(int(sys.argv[1]), int):
-    print("N must be an integer")
-    exit(1)
-
-n = int(sys.argv[1])
+def could_place(board, row, col):
+    """Check if a queen can be placed on the board"""
+    for i in range(row):
+        if board[i] == col or board[i] - i == col - row or board[i] + i == col + row:
+            return False
+    return True
 
 
-def is_valid_state(state, n):
-    """Check if the state is a valid solution"""
-    return len(state) == n
-
-
-def get_candidates(state, n):
-    """Get valid candidate positions for the next queen"""
-    if not state:
-        return range(n)
-
-    position = len(state)
-    candidates = set(range(n))
-    for row, col in enumerate(state):
-        candidates.discard(col)
-        dist = position - row
-        candidates.discard(col + dist)
-        candidates.discard(col - dist)
-    return candidates
-
-
-def search(state, solutions, n):
-    """Backtrack to find all solutions"""
-    if is_valid_state(state, n):
-        solutions.append(state_to_string(state))
+def solve_nqueens(board, row, n):
+    """Solve N queens recursively and print each solution"""
+    if row == n:
+        result = [[i, board[i]] for i in range(n)]
+        print(result)
         return
-
-    for candidate in get_candidates(state, n):
-        state.append(candidate)
-        search(state, solutions, n)
-        state.pop()
-
-
-def solve_nqueens(n):
-    """Solve the problem"""
-    solutions = []
-    state = []
-    search(state, solutions, n)
-    return solutions
+    for col in range(n):
+        if could_place(board, row, col):
+            board[row] = col
+            solve_nqueens(board, row + 1, n)
 
 
-def state_to_string(state):
-    """Format the state as a list of [row, col]"""
-    return [[row, col] for row, col in enumerate(state)]
+if __name__ == "__main__":
+    """Main function to validate input and initiate solving"""
+    if len(sys.argv) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
+    try:
+        n = int(sys.argv[1])
+    except ValueError:
+        print("N must be a number")
+        sys.exit(1)
+    if n < 4:
+        print("N must be at least 4")
+        sys.exit(1)
 
-
-for solution in solve_nqueens(n):
-    print(solution)
+    board = [0] * n
+    solve_nqueens(board, 0, n)
