@@ -10,14 +10,19 @@ if len(sys.argv) != 2:
     exit(1)
 
 try:
-    n = int(sys.argv[1])
+    int(sys.argv[1])
 except ValueError:
     print("N must be a number")
     exit(1)
 
-if n < 4:
+if int(sys.argv[1]) < 4:
     print("N must be at least 4")
     exit(1)
+if not isinstance(int(sys.argv[1]), int):
+    print("N must be an integer")
+    exit(1)
+
+n = int(sys.argv[1])
 
 
 def is_valid_state(state, n):
