@@ -16,6 +16,9 @@ except ValueError:
 if n < 4:
     print("N must be at least 4")
     exit(1)
+if not isinstance(n, int):
+    print("N must be a number")
+    exit(1)
 
 
 def is_valid_state(state, n):
