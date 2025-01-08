@@ -6,6 +6,7 @@
 
 /**
  * struct binary_tree_s - Binary tree node
+ *
  * @n: Integer stored in the node
  * @parent: Pointer to the parent node
  * @left: Pointer to the left child node
@@ -25,4 +26,4 @@ typedef struct binary_tree_s heap_t;
 void binary_tree_print(const binary_tree_t *tree);
 int heap_extract(heap_t **root);
 
-#endif /* BINARY_TREES_H */
+#endif
