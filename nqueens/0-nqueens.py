@@ -1,13 +1,16 @@
 #!/usr/bin/python3
 """ N queens backtracing """
-
 import sys
 
 
 def could_place(board, row, col):
     """Check if a queen can be placed on the board"""
     for i in range(row):
-        if board[i] == col or board[i] - i == col - row or board[i] + i == col + row:
+        if (
+            board[i] == col
+            or board[i] - i == col - row
+            or board[i] + i == col + row
+        ):
             return False
     return True
 
