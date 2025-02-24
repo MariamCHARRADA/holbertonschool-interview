@@ -26,20 +26,15 @@ if __name__ == "__main__":
     try:
         for line in sys.stdin:
             total_lines += 1
-            parts = line.split()
+            parts = line.split(" ")
             if len(parts) > 2:
-                try:
-                    size = int(parts[-1])
-                    total_size += size
-                except ValueError:
-                    continue
-                code = parts[-2]
-                if code in status_codes:
-                    status_codes[code] += 1
+                size = int(parts[-1])
+                total_size += size
+            code = parts[-2]
+            if code in status_codes:
+                status_codes[code] += 1
             if total_lines % 10 == 0:
                 print_statistics()
-    except KeyboardInterrupt:
-        print_statistics()
-        raise
+
     finally:
         print_statistics()
