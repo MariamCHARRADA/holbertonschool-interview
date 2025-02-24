@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-""" 
-N queens backtracing
-"""
+""" N queens backtracing """
 
 import sys
 
